@@ -22,3 +22,5 @@ Project is Created in VS CODE .net Core version 3
 Note : Bootstrap version 3 is used to resolve conflict for bootstrap dialog js issue (upgrading to latest version might create issue)
 
 commit by me 1
+
+commit by me 2
