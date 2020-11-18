@@ -1,0 +1,105 @@
+﻿
+@model IEnumerable<MVCPrac.Models.StudentModel>
+
+@{
+    ViewData["Title"] = "Student List";   
+}
+<div class="text-right">
+@Html.ActionLink("Add","Details","Student")
+</div>
+<div class="text-center">     
+     <table class="table">
+             <thead>
+        <tr>
+                <th>
+                    <a asp-action="Index" asp-route-PageNo="@ViewBag.PageNo" asp-route-sortByProp="Name"
+                    asp-route-sortDir='@(ViewBag.sortByProp == "Name" ? ViewBag.sortDir : "ASC")' >
+                        @Html.DisplayNameFor(model => model.Name)</a>
+                </th>
+                <th>
+                   <a asp-action="Index" asp-route-PageNo="@ViewBag.PageNo" asp-route-sortByProp="DateOfBirth"
+                    asp-route-sortDir='@(ViewBag.sortByProp == "DateOfBirth" ? ViewBag.sortDir : "ASC")'  >
+                        @Html.DisplayNameFor(model => model.BirthDate)</a>
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-PageNo="@ViewBag.PageNo" asp-route-sortByProp="Age"
+                     asp-route-sortDir='@(ViewBag.sortByProp == "Age" ? ViewBag.sortDir : "ASC")'  >
+                        @Html.DisplayNameFor(model => model.Age)</a>
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-PageNo="@ViewBag.PageNo" asp-route-sortByProp="Gender"
+                     asp-route-sortDir='@(ViewBag.sortByProp == "Gender" ? ViewBag.sortDir : "ASC")'  >
+                        @Html.DisplayNameFor(model => model.Gender)</a>
+                </th>
+                <th>
+                    Edit
+                </th>
+                <th>
+                    Delete
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td class="text-left">
+                @Html.DisplayFor(p => item.Name)
+            </td>
+            <td class="text-left">
+                @Html.DisplayFor(p => item.BirthDate)
+            </td>
+            <td class="text-left">
+                @if(item.Age<=10){
+                @Html.LabelFor(modelItem => item.Age,item.Age.ToString(),new {@style="color:red;"})
+                }
+                else
+                {
+                @Html.DisplayFor(modelItem => item.Age)
+                }
+            </td>
+            <td class="text-left">
+                @Html.DisplayFor(modelItem => item.Gender_Str)
+            </td>
+            <td class="text-left">
+                <a asp-action="Details" asp-route-Id="@item.StudentId">Edit</a> 
+            </td>
+            <td class="text-left">                                
+                <a onclick='deletedata("@item.StudentId");' style="cursor:pointer;">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<div class="col-xs-12">
+<div class="col-sm-12 col-md-6 text-left">
+    <div class="col-xs-12 col-md-3">
+        @Html.Label("PageNo","Page No : ")
+    </div>
+    <div class="col-xs-12 col-md-3">
+    <select id="ddlPageNo" onchange='pagechange();' class='form-control'>
+ @for (int i = 1; i <= int.Parse(ViewData["MaxPageNo"].ToString()); i++)
+ {
+     if(ViewBag.PageNo == i)
+     {<option value="@i.ToString()" selected="selected">@i.ToString()</option>}
+     else
+     {<option value="@i.ToString()">@i.ToString()</option>}
+ }
+    </select>      
+    </div>
+</div>
+<div class="col-sm-12 col-md-6 text-right">
+    <div class="col-xs-12 col-md-3">
+        @Html.Label("TotalRecords","Total Records : ")
+    </div>
+    <div class="col-xs-12 col-md-3">
+        @Html.Label("Records",@ViewData["TotalRecords"].ToString(),new {@class="form-control"})
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+var deleteUrl = '@Url.Action("Delete","Student")';
+var refreshUrl = '@Url.Action("Index","Student")';
+  </script> 
+   <script src="~/Scripts/Student.js"></script>
+</div>
